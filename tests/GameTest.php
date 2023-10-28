@@ -37,6 +37,21 @@ final class GameTest extends TestCase
 
         $game->put(1, 3);
         $this->assertEquals(Color::Black, $game->board[1][2]->color);
+
+        $game = new Game();
+        $game->board[1][1] = new Stone(Color::Black);
+        $game->board[1][2] = new Stone(Color::White);
+        $game->board[1][3] = new Stone(Color::White);
+
+        $game->put(1, 4);
+        $this->assertEquals(Color::Black, $game->board[1][2]->color);
+        $this->assertEquals(Color::Black, $game->board[1][3]->color);
+    }
+
+    public function testToggleColor(): void
+    {
+        $this->assertEquals(Color::White, Color::Black->toggle());
+        $this->assertEquals(Color::Black, Color::White->toggle());
     }
 
     public function testPlay(): void
@@ -47,5 +62,24 @@ final class GameTest extends TestCase
 
         $game->play(1, 3);
         $this->assertEquals(Color::Black, $game->board[1][2]->color);
+
+        $game = new Game();
+        $game->board[4][4] = new Stone(Color::White);
+        $game->board[4][5] = new Stone(Color::Black);
+        $game->board[5][4] = new Stone(Color::Black);
+        $game->board[5][5] = new Stone(Color::White);
+
+        $game->play(4, 3);
+        $this->assertEquals(Color::White, $game->turn);
+        $game->play(3, 3);
+        $this->assertEquals(Color::Black, $game->turn);
+        $game->play(3, 4);
+        $this->assertEquals(Color::White, $game->turn);
+        $game->play(3, 5);
+        $this->assertEquals(Color::Black, $game->turn);
+        $game->play(4, 6);
+        $this->assertEquals(Color::White, $game->turn);
+
     }
+
 }
