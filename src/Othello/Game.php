@@ -37,12 +37,6 @@ class Game
         }
     }
 
-    // public function finish()
-    // {
-    //     echo "\n----- ゲーム終了 -----\n";
-    //     $this->draw();
-    // }
-
     private function canPlay(): bool
     {
         foreach (range(1, 8) as $x) {
@@ -55,33 +49,34 @@ class Game
         return false;
     }
 
+    private function pass(): void
+    {
+        $this->turn = $this->turn === Color::Black ? Color::White : Color::Black;
+        if ($this->pass_flag) {
+            $this->end_flag = true;
+        }
+        $this->pass_flag = true;
+    }
+
     public function play($x, $y): void
     {
         $this->put($x, $y);
         $this->pass_flag = false;
         // 石を置いた場合はターンを変更
         $this->turn = $this->turn === Color::Black ? Color::White : Color::Black;
-        
+
         // 全てのセルを確認して置ける場所がない場合はパスさせる
         if ($this->canPlay()) {
             return;
         } else {
-            $this->turn = $this->turn === Color::Black ? Color::White : Color::Black;
-            if ($this->pass_flag) {
-                $this->end_flag = true;
-            }
-            $this->pass_flag = true;
+            $this->pass();
         }
 
         // 2回連続でパスされた場合はゲーム終了
         if ($this->canPlay()) {
             return;
         } else {
-            $this->turn = $this->turn === Color::Black ? Color::White : Color::Black;
-            if ($this->pass_flag) {
-                $this->end_flag = true;
-            }
-            $this->pass_flag = true;
+            $this->pass();
         }
     }
 
