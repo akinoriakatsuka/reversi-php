@@ -121,9 +121,8 @@ class Game
                                 }
                                 $this->flip($temp_x, $temp_y);
                             }
-                        } else {
-                            break;
                         }
+                        break;
                     } else {
                         // 違う色の場合はフラグを立てる
                         $other_color_flag = true;
