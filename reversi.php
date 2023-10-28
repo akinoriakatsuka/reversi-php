@@ -1,5 +1,7 @@
 <?php
+
 namespace Reversi;
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 $game = new Game();
@@ -21,23 +23,24 @@ while ($game->end_flag !== true) {
     echo "次は {$turn} の番です\n";
     echo "どこに置きますか？: ";
     $input = trim(fgets(STDIN));
-    try {
-        $x = (int)substr($input, 0, 1);
-        $y = match (substr($input, 1, 1))
-        {
-            'a' => 1,
-            'b' => 2,
-            'c' => 3,
-            'd' => 4,
-            'e' => 5,
-            'f' => 6,
-            'g' => 7,
-            'h' => 8,
-        };
-    } catch (\Error $e) {
+    if ($input === 'q') {
+        break;
+    }
+    if (strlen($input) !== 2 || preg_match('/[1-8][a-h]/', $input) !== 1) {
         echo sprintf("\033[%dm %s \033[m", 31, "\n座標の指定が誤っています\n");
         continue;
     }
+    $x = (int)substr($input, 0, 1);
+    $y = match (substr($input, 1, 1)) {
+        'a' => 1,
+        'b' => 2,
+        'c' => 3,
+        'd' => 4,
+        'e' => 5,
+        'f' => 6,
+        'g' => 7,
+        'h' => 8,
+    };
     try {
         $game->play($x, $y);
     } catch (\Exception $e) {
