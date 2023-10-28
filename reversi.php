@@ -39,3 +39,4 @@ while ($game->end_flag !== true) {
 
 echo "\n----- ゲーム終了 -----\n";
 $game->draw();
+echo $game->result() . "\n";

@@ -82,4 +82,16 @@ final class GameTest extends TestCase
 
     }
 
+    public function testResult(): void
+    {
+        $game = new Game();
+        $game->board[1][1] = new Stone(Color::Black);
+        $game->board[1][2] = new Stone(Color::White);
+        $game->board[1][3] = new Stone(Color::White);
+        $game->board[1][4] = new Stone(Color::White);
+
+        $this->assertEquals('白の勝ち（ 1 対 3 ）', $game->result());
+        
+    }
+
 }

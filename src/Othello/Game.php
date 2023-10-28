@@ -180,4 +180,29 @@ class Game
 
         return false;
     }
+
+    public function result(): string
+    {
+        $black_count = 0;
+        $white_count = 0;
+        foreach (range(1, 8) as $x) {
+            foreach (range(1, 8) as $y) {
+                if ($this->board[$x][$y] === null) {
+                    continue;
+                }
+                if ($this->board[$x][$y]->color === Color::Black) {
+                    $black_count++;
+                } elseif ($this->board[$x][$y]->color === Color::White) {
+                    $white_count++;
+                }
+            }
+        }
+        if ($black_count > $white_count) {
+            return "黒の勝ち（ $black_count 対 $white_count ）";
+        } elseif ($black_count < $white_count) {
+            return "白の勝ち（ $black_count 対 $white_count ）";
+        } else {
+            return "引き分け（ $black_count 対 $white_count ）";
+        }
+    }
 }
