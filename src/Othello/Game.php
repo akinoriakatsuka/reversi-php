@@ -6,7 +6,7 @@ class Game
 {
     public array $board;
     public Color $turn = Color::Black;
-    public bool $pass_flag = false;
+    public int $pass_count = 0;
     public bool $end_flag = false;
 
     public function __construct()
@@ -51,19 +51,21 @@ class Game
 
     private function pass(): void
     {
-        $this->turn = $this->turn === Color::Black ? Color::White : Color::Black;
-        if ($this->pass_flag) {
+        $this->turn = $this->turn->toggle();
+        $this->pass_count++;
+        if ($this->pass_count >= 2) {
             $this->end_flag = true;
         }
-        $this->pass_flag = true;
     }
 
     public function play($x, $y): void
     {
+        // パスカウントをリセット
+        $this->pass_count = 0;
+        
         $this->put($x, $y);
-        $this->pass_flag = false;
         // 石を置いた場合はターンを変更
-        $this->turn = $this->turn === Color::Black ? Color::White : Color::Black;
+        $this->turn = $this->turn->toggle();
 
         // 全てのセルを確認して置ける場所がない場合はパスさせる
         if ($this->canPlay()) {
