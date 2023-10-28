@@ -37,7 +37,7 @@ class Game
         }
     }
 
-    private function canPlay(): bool
+    public function canPlay(): bool
     {
         foreach (range(1, 8) as $x) {
             foreach (range(1, 8) as $y) {
@@ -49,7 +49,7 @@ class Game
         return false;
     }
 
-    private function pass(): void
+    public function pass(): void
     {
         $this->turn = $this->turn->toggle();
         $this->pass_count++;
@@ -62,24 +62,10 @@ class Game
     {
         // パスカウントをリセット
         $this->pass_count = 0;
-        
+
         $this->put($x, $y);
         // 石を置いた場合はターンを変更
         $this->turn = $this->turn->toggle();
-
-        // 全てのセルを確認して置ける場所がない場合はパスさせる
-        if ($this->canPlay()) {
-            return;
-        } else {
-            $this->pass();
-        }
-
-        // 2回連続でパスされた場合はゲーム終了
-        if ($this->canPlay()) {
-            return;
-        } else {
-            $this->pass();
-        }
     }
 
     public function put($x, $y)

@@ -9,8 +9,11 @@ $game->board[4][5] = new Stone(Color::Black);
 $game->board[5][4] = new Stone(Color::Black);
 $game->board[5][5] = new Stone(Color::White);
 
-
 while ($game->end_flag !== true) {
+    if ($game->canPlay() === false) {
+        $game->pass();
+        continue;
+    }
     $game->draw();
     $turn = $game->turn === Color::Black ? '黒' : '白';
     echo "\n";
